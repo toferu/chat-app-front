@@ -1,18 +1,35 @@
-import io from 'socket.io-client'
+import { io } from 'socket.io-client'
 import './App.css';
+import cors from 'cors'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
-const socket = io.connect('http://localhost:3000')
+
+const socket = io('localhost:8000')
 
 function App() {
+  const [msg, setMsg] = useState('')
 
   const sendMessage = () => {
-    socket.emit()
+    // e.preventDefault()
+    socket.emit('my_event', msg)
   }
+
+  // const getPls = () => {
+  //   axios.get('http://localhost:8000')
+  //   .then((response) => {(console.log(response))})
+  // }
+
+  // useEffect(() => {
+  //   getPls()
+  // }, []) 
 
   return (
     <div className="App">
-      <input placeholder="Message.." />
-      <button onClick={sendMessage}> Send Message</button>
+      <form>
+      <input  placeholder="Message.." />
+      <button > Send Message</button>
+      </form>
     </div>
   );
 }
