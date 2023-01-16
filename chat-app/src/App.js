@@ -10,8 +10,13 @@ const socket = io('localhost:8000')
 function App() {
   const [msg, setMsg] = useState('')
 
-  const sendMessage = () => {
-    // e.preventDefault()
+  const handleChange = (e) => {
+    setMsg(e.target.value)
+  }
+
+
+  const sendMessage = (e) => {
+    e.preventDefault()
     socket.emit('my_event', msg)
   }
 
@@ -26,9 +31,12 @@ function App() {
 
   return (
     <div className="App">
-      <form>
-      <input  placeholder="Message.." />
-      <button > Send Message</button>
+      <form onSubmit={sendMessage}>
+      <input 
+        type='text'
+        onChange={handleChange} placeholder="Message.." />
+      <input type="submit" />
+      {/* <button onClick={sendMessage}> Send Message</button> */}
       </form>
     </div>
   );
