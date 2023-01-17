@@ -9,6 +9,7 @@ const socket = io('localhost:8000')
 
 function App() {
   const [msg, setMsg] = useState('')
+  const [incomingMsg, setIncomingMsg] = useState([])
 
   const handleChange = (e) => {
     setMsg(e.target.value)
@@ -17,7 +18,7 @@ function App() {
 
   const sendMessage = (e) => {
     e.preventDefault()
-    socket.emit('my_event', msg)
+    socket.emit('send_message', msg)
   }
 
   // const getPls = () => {
@@ -25,9 +26,11 @@ function App() {
   //   .then((response) => {(console.log(response))})
   // }
 
-  // useEffect(() => {
-  //   getPls()
-  // }, []) 
+  useEffect(() => {
+    socket.on('my_response', (message) => {
+      setIncomingMsg(message.data)
+    })
+  }, [socket]) 
 
   return (
     <div className="App">
@@ -36,8 +39,8 @@ function App() {
         type='text'
         onChange={handleChange} placeholder="Message.." />
       <input type="submit" />
-      {/* <button onClick={sendMessage}> Send Message</button> */}
       </form>
+      <h1>{incomingMsg}</h1>
     </div>
   );
 }
